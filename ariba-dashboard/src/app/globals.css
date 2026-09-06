@@ -1,0 +1,148 @@
+/*
+  Global styles for Ariba Security Platform Dashboard
+*/
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Custom properties */
+:root {
+  --radius: 0.5rem;
+  --sidebar-width: 240px;
+  --navbar-height: 64px;
+}
+
+/* CSS Variables for light/dark mode */
+.light {
+  --background: #ffffff;
+  --foreground: #111827;
+  --card: #f9fafb;
+  --border: #e5e7eb;
+}
+
+.dark {
+  --background: #111827;
+  --foreground: #f9fafb;
+  --card: #1f2937;
+  --border: #374151;
+}
+
+/* Sidebar */
+.sidebar {
+  width: var(--sidebar-width);
+  background: var(--card);
+  border-right: 1px var(--border) solid;
+  height: 100vh;
+  overflow-y: auto;
+}
+
+/* Nav link */
+.nav-link {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.75rem 1rem;
+  color: var(--foreground);
+  text-decoration: none;
+  border-radius: 0;
+  margin: 0.25rem 0;
+  transition: all 0.2s ease;
+}
+
+.nav-link:hover {
+  background: var(--border);
+  color: var(--foreground);
+}
+
+.nav-link.active {
+  background: #e0f2fe;
+  color: #0891b2;
+}
+
+/* Main content */
+.main-content {
+  margin-left: var(--sidebar-width);
+  padding: 2rem;
+}
+
+/* Navbar */
+.navbar {
+  height: var(--navbar-height);
+  background: var(--card);
+  border-bottom: 1px var(--border) solid;
+  padding: 0 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+/* Charts */
+.chart-wrapper {
+  background: var(--card);
+  border: 1px var(--border) solid;
+  border-radius: var(--radius);
+  padding: 1.5rem;
+}
+
+/* Tables */
+.table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.table th,
+.table td {
+  padding: 0.75rem;
+  text-align: left;
+  border-bottom: 1px var(--border) solid;
+}
+
+.table th {
+  color: var(--foreground);
+  font-weight: 500;
+}
+
+/* Alert card */
+.alert-card {
+  background: var(--card);
+  border: 1px var(--border) solid;
+  border-radius: var(--radius);
+  padding: 1rem;
+  transition: all 0.2s ease;
+}
+
+.alert-card:hover {
+  border-color: #f87171;
+}
+
+/* Status badge */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 0.25rem 0.5rem;
+  border-radius: 9999px;
+  font-size: 0.75rem;
+  font-weight: 500;
+}
+
+.badge.critical {
+  background: #fee2e2;
+  color: #dc2626;
+}
+
+.badge.high {
+  background: #f87171;
+  color: #ffffff;
+}
+
+.badge.medium {
+  background: #fbbf24;
+  color: #000000;
+}
+
+.badge.low {
+  background: #34d399;
+  color: #ffffff;
+}
