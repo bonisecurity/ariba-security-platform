@@ -523,9 +523,20 @@ Planned documentation:
 
 ## Acknowledgements
 
-The project learns from open security standards and the broader open-source security community, including MITRE ATT&CK, Sigma, OpenSearch, FastAPI, PostgreSQL, and other defensive-security ecosystems.
+The Ariba Security Platform project learns from and is inspired by numerous open security standards and the broader open-source security community. Special recognition is given to:
+
+- **MITRE ATT&CK** - For the comprehensive threat knowledge base and framework used throughout detection rule mapping
+- **Sigma** - For the standardized logging format and detection rule methodology
+- **OpenSearch** - For the powerful, scalable search and analytics engine
+- **FastAPI** - For the modern, high-performance Python web framework for APIs
+- **PostgreSQL** - For the reliable, feature-rich relational database
+- **Prometheus & Grafana** - For the monitoring and observability stack
+- **Next.js** - For the React framework enabling the dashboard interface
+- **Docker & Docker Compose** - For containerized development and deployment
 
 Ariba Security Platform is an independent project and is not affiliated with or endorsed by those projects or organizations.
+
+We extend gratitude to all contributors, testers, and early adopters who help shape this project through feedback, bug reports, and code contributions.
 
 
 
