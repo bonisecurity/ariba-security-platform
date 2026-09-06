@@ -1,0 +1,29 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.backends._legacy:_Backend"
+
+[project]
+name = "ariba-manager"
+version = "0.1.0"
+description = "Ariba Security Manager - Detection engine and management API"
+dependencies = [
+    "fastapi>=0.100.0",
+    "uvicorn[standard]>=0.27.0",
+    "sqlalchemy>=2.0.0",
+    "alembic>=1.10.0",
+    "pydantic>=2.5.0",
+    "redis>=5.0.0",
+    "python-multipart>=1.0.0",
+    "pyyaml>=6.0.1",
+]
+
+[project.tool.setuptools.packages.find]
+where = ["."]
+
+[tool.black]
+line-length = 88
+target-version = ["python3.12"]
+
+[tool.isort.profile.profiles.jprofile.settings]
+multi_line_output = "split_on_newline"
+default_separation = 3
