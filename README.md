@@ -527,6 +527,425 @@ The project learns from open security standards and the broader open-source secu
 
 Ariba Security Platform is an independent project and is not affiliated with or endorsed by those projects or organizations.
 
+
+
+ariba-security-platform/
+│
+├── README.md
+├── LICENSE
+├── CHANGELOG.md
+├── CONTRIBUTING.md
+├── Makefile
+├── pyproject.toml
+├── docker-compose.yml
+├── docker-compose.dev.yml
+├── .env.example
+├── .gitignore
+├── .dockerignore
+│
+├── ariba-manager/                     # মূল detection ও processing engine
+│   ├── Dockerfile
+│   ├── requirements.txt
+│   ├── alembic.ini
+│   ├── pytest.ini
+│   │
+│   ├── app/
+│   │   ├── __init__.py
+│   │   ├── main.py                    # FastAPI entry point
+│   │   ├── config.py                  # Environment configuration
+│   │   ├── logging_config.py
+│   │   ├── constants.py
+│   │   ├── exceptions.py
+│   │   │
+│   │   ├── api/
+│   │   │   ├── __init__.py
+│   │   │   ├── dependencies.py
+│   │   │   └── v1/
+│   │   │       ├── __init__.py
+│   │   │       ├── router.py
+│   │   │       └── endpoints/
+│   │   │           ├── auth.py
+│   │   │           ├── agents.py
+│   │   │           ├── events.py
+│   │   │           ├── alerts.py
+│   │   │           ├── incidents.py
+│   │   │           ├── rules.py
+│   │   │           ├── decoders.py
+│   │   │           ├── vulnerabilities.py
+│   │   │           ├── active_response.py
+│   │   │           ├── threat_hunting.py
+│   │   │           ├── users.py
+│   │   │           └── health.py
+│   │   │
+│   │   ├── core/
+│   │   │   ├── __init__.py
+│   │   │   ├── security.py            # JWT, password, API key
+│   │   │   ├── permissions.py         # RBAC
+│   │   │   ├── middleware.py
+│   │   │   ├── rate_limit.py
+│   │   │   ├── audit.py
+│   │   │   └── lifespan.py
+│   │   │
+│   │   ├── database/
+│   │   │   ├── __init__.py
+│   │   │   ├── session.py
+│   │   │   ├── base.py
+│   │   │   └── seed.py
+│   │   │
+│   │   ├── models/
+│   │   │   ├── __init__.py
+│   │   │   ├── user.py
+│   │   │   ├── role.py
+│   │   │   ├── agent.py
+│   │   │   ├── agent_group.py
+│   │   │   ├── event.py
+│   │   │   ├── alert.py
+│   │   │   ├── incident.py
+│   │   │   ├── rule.py
+│   │   │   ├── decoder.py
+│   │   │   ├── vulnerability.py
+│   │   │   ├── response_action.py
+│   │   │   ├── notification.py
+│   │   │   └── audit_log.py
+│   │   │
+│   │   ├── schemas/
+│   │   │   ├── __init__.py
+│   │   │   ├── common.py
+│   │   │   ├── auth.py
+│   │   │   ├── agent.py
+│   │   │   ├── event.py
+│   │   │   ├── alert.py
+│   │   │   ├── incident.py
+│   │   │   ├── rule.py
+│   │   │   ├── decoder.py
+│   │   │   ├── vulnerability.py
+│   │   │   └── response.py
+│   │   │
+│   │   ├── collectors/                # Log গ্রহণ
+│   │   │   ├── __init__.py
+│   │   │   ├── base.py
+│   │   │   ├── agent_http.py
+│   │   │   ├── syslog_udp.py
+│   │   │   ├── syslog_tcp.py
+│   │   │   ├── webhook.py
+│   │   │   └── file_collector.py
+│   │   │
+│   │   ├── decoders/                  # Raw log parsing
+│   │   │   ├── __init__.py
+│   │   │   ├── base.py
+│   │   │   ├── registry.py
+│   │   │   ├── json_decoder.py
+│   │   │   ├── syslog_decoder.py
+│   │   │   ├── linux_auth.py
+│   │   │   ├── windows_event.py
+│   │   │   ├── nginx_access.py
+│   │   │   ├── apache_access.py
+│   │   │   ├── mikrotik.py
+│   │   │   └── firewall.py
+│   │   │
+│   │   ├── normalizers/               # Common event format
+│   │   │   ├── __init__.py
+│   │   │   ├── base.py
+│   │   │   ├── ecs_mapper.py
+│   │   │   ├── network.py
+│   │   │   ├── authentication.py
+│   │   │   ├── web.py
+│   │   │   └── endpoint.py
+│   │   │
+│   │   ├── engine/                    # Detection engine
+│   │   │   ├── __init__.py
+│   │   │   ├── pipeline.py
+│   │   │   ├── rule_loader.py
+│   │   │   ├── rule_validator.py
+│   │   │   ├── rule_compiler.py
+│   │   │   ├── rule_matcher.py
+│   │   │   ├── condition_parser.py
+│   │   │   ├── severity.py
+│   │   │   ├── correlation.py
+│   │   │   ├── suppression.py
+│   │   │   ├── enrichment.py
+│   │   │   └── mitre_mapper.py
+│   │   │
+│   │   ├── services/
+│   │   │   ├── __init__.py
+│   │   │   ├── agent_service.py
+│   │   │   ├── event_service.py
+│   │   │   ├── alert_service.py
+│   │   │   ├── incident_service.py
+│   │   │   ├── rule_service.py
+│   │   │   ├── vulnerability_service.py
+│   │   │   ├── response_service.py
+│   │   │   ├── threat_intel_service.py
+│   │   │   └── notification_service.py
+│   │   │
+│   │   ├── repositories/
+│   │   │   ├── __init__.py
+│   │   │   ├── agent_repository.py
+│   │   │   ├── alert_repository.py
+│   │   │   ├── incident_repository.py
+│   │   │   └── rule_repository.py
+│   │   │
+│   │   ├── indexer/
+│   │   │   ├── __init__.py
+│   │   │   ├── client.py              # OpenSearch client
+│   │   │   ├── event_indexer.py
+│   │   │   ├── alert_indexer.py
+│   │   │   ├── search_service.py
+│   │   │   └── bulk_writer.py
+│   │   │
+│   │   ├── queue/
+│   │   │   ├── __init__.py
+│   │   │   ├── client.py
+│   │   │   ├── producer.py
+│   │   │   ├── consumer.py
+│   │   │   └── dead_letter.py
+│   │   │
+│   │   ├── workers/
+│   │   │   ├── __init__.py
+│   │   │   ├── celery_app.py
+│   │   │   ├── event_worker.py
+│   │   │   ├── correlation_worker.py
+│   │   │   ├── notification_worker.py
+│   │   │   ├── vulnerability_worker.py
+│   │   │   └── cleanup_worker.py
+│   │   │
+│   │   ├── integrations/
+│   │   │   ├── __init__.py
+│   │   │   ├── email.py
+│   │   │   ├── teams.py
+│   │   │   ├── slack.py
+│   │   │   ├── telegram.py
+│   │   │   ├── webhook.py
+│   │   │   ├── misp.py
+│   │   │   └── wazuh.py
+│   │   │
+│   │   └── utils/
+│   │       ├── __init__.py
+│   │       ├── datetime.py
+│   │       ├── hashing.py
+│   │       ├── ip.py
+│   │       └── pagination.py
+│   │
+│   ├── migrations/
+│   │   ├── env.py
+│   │   └── versions/
+│   │
+│   └── tests/
+│       ├── conftest.py
+│       ├── unit/
+│       │   ├── test_decoders.py
+│       │   ├── test_rule_loader.py
+│       │   ├── test_rule_matcher.py
+│       │   └── test_correlation.py
+│       └── integration/
+│           ├── test_agents_api.py
+│           ├── test_events_api.py
+│           └── test_alerts_api.py
+│
+├── ariba-indexer/                     # OpenSearch configuration
+│   ├── Dockerfile
+│   ├── config/
+│   │   ├── opensearch.yml
+│   │   ├── roles.yml
+│   │   ├── roles_mapping.yml
+│   │   └── internal_users.yml
+│   ├── templates/
+│   │   ├── events-template.json
+│   │   ├── alerts-template.json
+│   │   ├── incidents-template.json
+│   │   └── monitoring-template.json
+│   ├── pipelines/
+│   │   ├── events-pipeline.json
+│   │   └── alerts-pipeline.json
+│   ├── policies/
+│   │   ├── event-retention-policy.json
+│   │   └── alert-retention-policy.json
+│   └── scripts/
+│       ├── initialize-indexer.sh
+│       └── create-indices.sh
+│
+├── ariba-dashboard/                   # Next.js dashboard
+│   ├── Dockerfile
+│   ├── package.json
+│   ├── next.config.js
+│   ├── tailwind.config.ts
+│   ├── tsconfig.json
+│   ├── public/
+│   │   ├── logo.svg
+│   │   └── icons/
+│   └── src/
+│       ├── app/
+│       │   ├── layout.tsx
+│       │   ├── login/
+│       │   ├── overview/
+│       │   ├── events/
+│       │   ├── alerts/
+│       │   ├── incidents/
+│       │   ├── hunting/
+│       │   ├── mitre/
+│       │   ├── vulnerabilities/
+│       │   ├── fim/
+│       │   ├── agents/
+│       │   ├── assets/
+│       │   ├── rules/
+│       │   ├── decoders/
+│       │   ├── responses/
+│       │   ├── reports/
+│       │   ├── health/
+│       │   ├── users/
+│       │   └── settings/
+│       ├── components/
+│       │   ├── layout/
+│       │   ├── charts/
+│       │   ├── tables/
+│       │   ├── alerts/
+│       │   ├── incidents/
+│       │   └── common/
+│       ├── hooks/
+│       ├── services/
+│       ├── store/
+│       ├── types/
+│       └── utils/
+│
+├── ariba-agent/                       # Endpoint agent
+│   ├── Dockerfile
+│   ├── requirements.txt
+│   ├── agent/
+│   │   ├── main.py
+│   │   ├── config.py
+│   │   ├── enrollment.py
+│   │   ├── heartbeat.py
+│   │   ├── sender.py
+│   │   ├── spool.py
+│   │   ├── collectors/
+│   │   │   ├── linux_logs.py
+│   │   │   ├── windows_events.py
+│   │   │   ├── file_monitor.py
+│   │   │   ├── process_monitor.py
+│   │   │   └── inventory.py
+│   │   └── security/
+│   │       ├── certificates.py
+│   │       └── integrity.py
+│   ├── packaging/
+│   │   ├── linux/
+│   │   │   └── ariba-agent.service
+│   │   └── windows/
+│   │       └── install-service.ps1
+│   └── tests/
+│
+├── ariba-ruleset/                     # Detection rules
+│   ├── rules/
+│   │   ├── web/
+│   │   │   ├── sql-injection.yml
+│   │   │   ├── xss.yml
+│   │   │   ├── path-traversal.yml
+│   │   │   └── command-injection.yml
+│   │   ├── authentication/
+│   │   │   ├── brute-force.yml
+│   │   │   ├── impossible-travel.yml
+│   │   │   └── privilege-escalation.yml
+│   │   ├── linux/
+│   │   │   ├── ssh.yml
+│   │   │   ├── sudo.yml
+│   │   │   └── persistence.yml
+│   │   ├── windows/
+│   │   │   ├── logon.yml
+│   │   │   ├── powershell.yml
+│   │   │   └── defender.yml
+│   │   ├── network/
+│   │   │   ├── port-scan.yml
+│   │   │   ├── firewall.yml
+│   │   │   └── mikrotik.yml
+│   │   └── malware/
+│   │       ├── suspicious-hash.yml
+│   │       └── ransomware.yml
+│   ├── decoders/
+│   │   ├── nginx.yml
+│   │   ├── linux-auth.yml
+│   │   ├── windows.yml
+│   │   └── mikrotik.yml
+│   ├── correlation/
+│   │   ├── brute-force.yml
+│   │   └── attack-chain.yml
+│   └── schemas/
+│       ├── rule.schema.json
+│       └── decoder.schema.json
+│
+├── ariba-response/                    # Active response service
+│   ├── app/
+│   │   ├── main.py
+│   │   ├── dispatcher.py
+│   │   ├── approvals.py
+│   │   └── actions/
+│   │       ├── block_ip.py
+│   │       ├── disable_user.py
+│   │       ├── isolate_host.py
+│   │       └── kill_process.py
+│   └── tests/
+│
+├── deployment/
+│   ├── docker/
+│   │   ├── manager.Dockerfile
+│   │   ├── dashboard.Dockerfile
+│   │   └── agent.Dockerfile
+│   ├── nginx/
+│   │   ├── nginx.conf
+│   │   └── ariba-security.conf
+│   ├── systemd/
+│   │   ├── ariba-manager.service
+│   │   └── ariba-worker.service
+│   ├── certificates/
+│   │   └── README.md
+│   ├── kubernetes/
+│   │   ├── namespace.yml
+│   │   ├── manager.yml
+│   │   ├── indexer.yml
+│   │   └── dashboard.yml
+│   └── ansible/
+│       ├── inventory.ini
+│       └── playbook.yml
+│
+├── monitoring/
+│   ├── prometheus/
+│   │   └── prometheus.yml
+│   ├── grafana/
+│   │   ├── dashboards/
+│   │   └── provisioning/
+│   └── alertmanager/
+│       └── alertmanager.yml
+│
+├── scripts/
+│   ├── setup-dev.sh
+│   ├── start.sh
+│   ├── stop.sh
+│   ├── migrate.sh
+│   ├── seed-admin.sh
+│   ├── create-certificates.sh
+│   ├── backup.sh
+│   └── restore.sh
+│
+├── docs/
+│   ├── architecture.md
+│   ├── installation.md
+│   ├── configuration.md
+│   ├── api-reference.md
+│   ├── agent-enrollment.md
+│   ├── rule-development.md
+│   ├── decoder-development.md
+│   ├── active-response.md
+│   ├── security-model.md
+│   └── development-roadmap.md
+│
+└── tests/
+    ├── performance/
+    │   ├── locustfile.py
+    │   └── event-generator.py
+    ├── security/
+    │   ├── test_authentication.py
+    │   └── test_authorization.py
+    └── end-to-end/
+        └── test_detection_pipeline.py
+
 ---
 
 **Current release status:** Pre-alpha / architecture and implementation in progress.
